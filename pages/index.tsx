@@ -17,10 +17,11 @@ export default function Home({ auth }: any) {
   let user: any
   if(typeof window !== "undefined") {
     if(auth.user) localStorage.setItem('user', auth.user)
-      user = localStorage.getItem('user') 
+    user = localStorage.getItem('user') 
   }
 
   function logoutHandler() {
+    if(typeof window !== "undefined") localStorage.clear()
     cookie.remove("token")
     Route.replace("/auth/login")
   }
@@ -33,8 +34,8 @@ export default function Home({ auth }: any) {
             <p onClick={logoutHandler} 
               className="hover:bg-gray-800 text-center 
               px-4 py-2 bg-gray-700 rounded-md text-white
-              w-max">
-              logout
+              w-max text-xs font-medium">
+              Logout
             </p>
             <p className="px-4 py-2 w-max bg-gray-700
               text-white text-xs rounded-md">
@@ -49,12 +50,12 @@ export default function Home({ auth }: any) {
         </div>
         <div className="mt-16 grid grid-cols-12 gap-4">
           <div className="col-span-12 md:col-span-4 px-4 py-2
-            border border-gray-200">
+            border border-gray-200 rounded-md">
             <h1 className="text-lg font-bold">
               Blog Post: NextJS
             </h1>
             <p className="text-gray-400 text-sm">Login At 2 Days Ago</p>
-            <p className="text-sm hover:bg-gray-800 text-center px-3 py-1.5 bg-gray-700 text-white rounded-md mt-10 mb-2">
+            <p className="text-sm font-medium hover:bg-gray-800 text-center px-3 py-1.5 bg-gray-700 text-white rounded-md mt-10 mb-2">
               Logout in this App
             </p>
           </div>
