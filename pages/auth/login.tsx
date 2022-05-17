@@ -8,6 +8,7 @@ import Route from "next/router"
 import cookie from "js-cookie"
 import { guest } from "middlewares/page"
 import { GetServerSideProps } from 'next'
+import Loading from "components/layout/Loading"
 
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -23,6 +24,8 @@ export default function login({ authenticateUser }: any) {
 		password: ""
 	})
 
+	const [ statusCode, setStatusCode ] = useState(200)
+
 	function getValue(e: any): void {
 		const name = e.target.name
 		setUser({
@@ -34,6 +37,8 @@ export default function login({ authenticateUser }: any) {
 	async function loginHandler(e: any):Promise<void> {
 		e.preventDefault()
 
+		setStatusCode(103)
+
 		const req = await fetch('/api/auth/login', {
 			headers: {
 				"Content-Type": "application/json"
@@ -41,6 +46,8 @@ export default function login({ authenticateUser }: any) {
 			method: "POST",
 			body: JSON.stringify(user)
 		})
+
+		if(!req.ok) return setStatusCode(req.status)
 		
 		const res = await req.json()
 		authenticateUser(res)
@@ -51,6 +58,9 @@ export default function login({ authenticateUser }: any) {
 
 	return (
 		<div>
+			{ statusCode === 103 && (
+				<Loading/>
+			) }
 			<Head>
 				<title>Login | SSO</title>
 			</Head>
