@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
  }
 }
 
-export default function login() {
+export default function login({ authenticateUser }: any) {
 	const [ user, setUser ] = useState({
 		email: "",
 		password: ""
@@ -43,6 +43,7 @@ export default function login() {
 		})
 		
 		const res = await req.json()
+		authenticateUser(res)
 		cookie.set("token", res.token, { expires: 7 })
 		
 		Route.push("/")

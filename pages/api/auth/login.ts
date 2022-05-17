@@ -1,17 +1,17 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type {NextApiRequest, NextApiResponse} from 'next'
 import knex from "lib/knex"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
 type data = {
     name: string,
-    user: string,
+    username: string,
     token: string
 }
 
 async function handler(req: NextApiRequest, res: NextApiResponse<data>) {
     if (req.method !== "POST") return res.status(401).end()
-  
+
     const {email, password} = req.body
     const secret: any = process.env.JWT_SECRET
 
@@ -26,7 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<data>) {
 
     return res.status(200).json({
         name: "Login Api",
-        user: user.username,
+        username: user.username,
         token
     })
 }
